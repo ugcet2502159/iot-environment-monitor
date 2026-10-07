@@ -1,0 +1,3031 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_dashboard" name="shell-type"/>
+
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "on-primary-fixed":"#001f26",
+        "surface-container-high":"#242a3a",
+        "on-background":"#dde2f8",
+        "surface-container":"#191f2f",
+        "surface":"#0d1322",
+        "secondary":"#adc6ff",
+        "background":"#0d1322",
+        "surface-container-highest":"#2f3445",
+        "outline-variant":"#3d494c",
+        "surface-dim":"#0d1322",
+        "surface-tint":"#4cd7f6",
+        "on-surface-variant":"#bcc9cd",
+        "surface-variant":"#2f3445",
+        "primary":"#4cd7f6",
+        "on-surface":"#dde2f8",
+        "tertiary-container":"#1bbd85",
+        "outline":"#869397",
+        "on-tertiary":"#003824",
+        "tertiary":"#4edea3",
+        "on-primary-container":"#00424f",
+        "surface-container-lowest":"#080e1d",
+        "surface-bright":"#33394a",
+        "error":"#ffb4ab",
+        "primary-container":"#06b6d4",
+        "on-primary":"#003640",
+        "secondary-container":"#0566d9",
+        "error-container":"#93000a",
+        "surface-container-low":"#151b2b"
+      },
+
+      borderRadius: {
+        "DEFAULT":"0.125rem",
+        "lg":"0.25rem",
+        "xl":"0.5rem",
+        "full":"0.75rem"
+      },
+
+      spacing: {
+        "space-lg":"1.5rem",
+        "space-md":"1rem",
+        "space-sm":"0.5rem",
+        "space-xl":"2rem",
+        "space-xs":"0.25rem",
+        "margin-desktop":"2rem"
+      },
+
+      fontFamily: {
+        "headline-lg":["Inter"],
+        "body-lg":["Inter"],
+        "body-md":["Inter"],
+        "body-sm":["Inter"],
+        "headline-sm":["Inter"],
+        "headline-md":["Inter"],
+        "mono-metric-sm":["JetBrains Mono"],
+        "mono-metric-md":["JetBrains Mono"],
+        "mono-metric-lg":["JetBrains Mono"],
+        "mono-metric-xl":["JetBrains Mono"],
+        "display-lg":["Inter"],
+        "label-caps":["Inter"]
+      },
+
+      fontSize: {
+        "headline-lg":["24px",{"lineHeight":"32px","fontWeight":"600"}],
+        "body-md":["14px",{"lineHeight":"20px"}],
+        "body-sm":["12px",{"lineHeight":"16px"}],
+        "headline-sm":["16px",{"lineHeight":"24px","fontWeight":"600"}],
+        "headline-md":["20px",{"lineHeight":"28px","fontWeight":"600"}],
+        "label-caps":["11px",{"lineHeight":"14px","fontWeight":"600"}],
+        "mono-metric-sm":["12px",{"lineHeight":"16px","fontWeight":"500"}],
+        "mono-metric-md":["16px",{"lineHeight":"20px","fontWeight":"500"}],
+        "mono-metric-lg":["24px",{"lineHeight":"28px","fontWeight":"600"}],
+        "mono-metric-xl":["32px",{"lineHeight":"36px","fontWeight":"600"}],
+        "display-lg":["36px",{"lineHeight":"44px","fontWeight":"700"}]
+      }
+    }
+  }
+};
+</script>
+
+<style>
+@layer base {
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    overscroll-behavior: none;
+  }
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+</style>
+</head>
+
+<body class="bg-background font-body-md text-on-surface">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-low z-50 flex flex-col pt-space-lg pb-space-lg">
+
+  <div class="px-space-md mb-space-lg">
+
+    <div class="flex items-center gap-space-sm mb-space-xs">
+      <div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary text-[20px]">
+          sensors
+        </span>
+      </div>
+
+      <span class="font-headline-sm text-on-surface">
+        IoT Monitor
+      </span>
+    </div>
+
+    <div class="font-label-caps text-label-caps text-outline uppercase tracking-wider pl-1">
+      Environment Monitor
+    </div>
+
+  </div>
+
+  <nav class="flex-1 px-space-sm flex flex-col gap-space-xs">
+
+    <a class="flex items-center px-space-sm py-space-sm bg-primary-container text-on-primary-container font-headline-sm rounded-lg" href="#">
+      <span class="material-symbols-outlined mr-space-sm text-[20px]">
+        monitoring
+      </span>
+      Live Telemetry
+    </a>
+
+    <a class="flex items-center px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface" href="#">
+      <span class="material-symbols-outlined mr-space-sm text-[20px]">
+        history
+      </span>
+      Sensor History
+    </a>
+
+    <a class="flex items-center px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface" href="#">
+      <span class="material-symbols-outlined mr-space-sm text-[20px]">
+        notification_important
+      </span>
+      Alert Rules
+    </a>
+
+    <a class="flex items-center px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface" href="#">
+      <span class="material-symbols-outlined mr-space-sm text-[20px]">
+        hub
+      </span>
+      Architecture Pipeline
+    </a>
+
+    <a class="flex items-center px-space-sm py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface" href="#">
+      <span class="material-symbols-outlined mr-space-sm text-[20px]">
+        encrypted
+      </span>
+      Security
+    </a>
+
+  </nav>
+
+  <div class="px-space-md pt-space-md mt-auto">
+
+    <div class="p-space-sm bg-surface-container rounded-lg flex items-center justify-between">
+
+      <div class="flex flex-col">
+
+        <span class="font-label-caps text-label-caps text-outline uppercase">
+          Link State
+        </span>
+
+        <span class="font-mono-metric-sm text-mono-metric-sm text-tertiary">
+          HTTPS / Encrypted
+        </span>
+
+      </div>
+
+      <span class="material-symbols-outlined text-tertiary text-[18px]">
+        verified_user
+      </span>
+
+    </div>
+
+  </div>
+
+</aside>
+
+
+<!-- ================= MAIN AREA ================= -->
+
+<div class="pl-64">
+
+<!-- HEADER -->
+
+<header class="fixed top-0 left-64 right-0 z-40 bg-surface-container-lowest/90 backdrop-blur-xl">
+
+  <div class="h-16 w-full px-space-md flex items-center justify-between">
+
+    <div class="flex items-center gap-space-md">
+
+      <div class="flex flex-col">
+
+        <div class="flex items-center gap-space-xs">
+
+          <span class="font-headline-sm text-on-surface">
+            IoT Environment Monitor
+          </span>
+
+          <span class="font-mono-metric-sm text-primary px-space-xs py-0.5 rounded bg-surface-container-high">
+            LIVE
+          </span>
+
+        </div>
+
+        <span class="font-label-caps text-label-caps text-on-surface-variant tracking-wider uppercase">
+          Real-Time Environmental Safety Monitoring
+        </span>
+
+      </div>
+
+      <div class="hidden md:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg">
+
+        <span class="font-label-caps text-label-caps text-outline uppercase">
+          Feed
+        </span>
+
+        <span class="font-mono-metric-sm text-primary">
+          #3524286
+        </span>
+
+      </div>
+
+    </div>
+
+    <div class="flex items-center gap-space-md">
+
+      <div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg">
+
+        <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+
+        <span class="font-mono-metric-sm text-tertiary uppercase">
+          Online
+        </span>
+
+      </div>
+
+      <div class="hidden lg:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg">
+
+        <span class="material-symbols-outlined text-outline text-[16px]">
+          schedule
+        </span>
+
+        <span class="font-mono-metric-sm text-on-surface-variant" id="clock">
+          --
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="w-full pt-16 bg-surface px-margin-desktop">
+
+<div class="flex flex-col w-full pb-space-xl space-y-space-lg">
+
+
+<!-- CONNECTION STRIP -->
+
+<div class="flex flex-wrap items-center justify-between gap-space-md p-space-md bg-surface-container-low rounded-xl">
+
+  <div class="flex flex-wrap items-center gap-space-md">
+
+    <div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg">
+
+      <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+
+      <span class="font-label-caps text-outline uppercase">
+        Telemetry
+      </span>
+
+      <span class="font-mono-metric-sm text-tertiary">
+        LIVE
+      </span>
+
+    </div>
+
+
+    <div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg">
+
+      <span class="material-symbols-outlined text-outline text-[16px]">
+        wifi
+      </span>
+
+      <span class="font-label-caps text-outline uppercase">
+        Wi-Fi
+      </span>
+
+      <span class="font-mono-metric-sm text-on-surface">
+        ESP32
+      </span>
+
+    </div>
+
+
+    <div class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container rounded-lg">
+
+      <span class="material-symbols-outlined text-outline text-[16px]">
+        cloud
+      </span>
+
+      <span class="font-label-caps text-outline uppercase">
+        ThingSpeak
+      </span>
+
+      <span class="font-mono-metric-sm text-primary">
+        #3524286
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="flex items-center gap-space-sm px-space-md py-1.5 bg-surface-container-high rounded-lg">
+
+    <span class="material-symbols-outlined text-primary text-[18px]">
+      update
+    </span>
+
+    <span class="font-label-caps text-outline uppercase">
+      Last Updated
+    </span>
+
+    <span class="font-mono-metric-md text-primary" id="top-timestamp">
+      --
+    </span>
+
+  </div>
+
+</div>
+
+
+<!-- ================= SYSTEM STATUS ================= -->
+
+<div
+  class="relative overflow-hidden p-space-lg rounded-xl bg-surface-container-low transition-all duration-300"
+  id="system-banner"
+>
+
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+
+    <div class="flex items-start md:items-center gap-space-md">
+
+      <div
+        class="w-14 h-14 rounded-xl flex items-center justify-center bg-tertiary/10 text-tertiary"
+        id="banner-icon-box"
+      >
+
+        <span
+          class="material-symbols-outlined text-[32px]"
+          id="banner-icon"
+        >
+          shield_check
+        </span>
+
+      </div>
+
+
+      <div class="flex flex-col">
+
+        <div class="flex items-center gap-space-sm flex-wrap">
+
+          <span class="font-label-caps text-outline uppercase tracking-wider">
+            Environmental Safety Sentinel
+          </span>
+
+          <span
+            class="px-space-sm py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary uppercase"
+            id="banner-status-chip"
+          >
+            NORMAL
+          </span>
+
+        </div>
+
+
+        <h2
+          class="font-display-lg text-display-lg text-on-surface tracking-tight"
+          id="banner-status-title"
+        >
+          SYSTEM STATUS: NORMAL
+        </h2>
+
+
+        <p
+          class="font-body-md text-on-surface-variant mt-1 max-w-3xl"
+          id="banner-status-desc"
+        >
+          All environmental telemetry parameters are within the configured prototype thresholds.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <div class="flex flex-col items-end gap-space-xs bg-surface-container p-space-sm rounded-lg min-w-[200px]">
+
+      <div class="flex items-center justify-between w-full">
+
+        <span class="font-label-caps text-outline uppercase">
+          Active Alert Count
+        </span>
+
+        <span
+          class="font-mono-metric-lg text-tertiary"
+          id="banner-breach-count"
+        >
+          0 / 3
+        </span>
+
+      </div>
+
+
+      <div class="w-full bg-surface-container-high h-1.5 rounded-full overflow-hidden">
+
+        <div
+          class="bg-tertiary h-full w-0 transition-all duration-300"
+          id="banner-breach-bar"
+        ></div>
+
+      </div>
+
+
+      <span
+        class="font-label-caps text-outline uppercase mt-1"
+        id="banner-incident-text"
+      >
+        Status: Normal
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= SENSOR CARDS ================= -->
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+
+
+<!-- TEMPERATURE -->
+
+<div
+  class="flex flex-col p-space-lg rounded-xl bg-surface-container-low transition-all duration-300"
+  id="card-temp"
+>
+
+  <div class="flex items-center justify-between">
+
+    <div class="flex items-center gap-space-xs">
+
+      <span class="w-2 h-2 rounded-full bg-primary"></span>
+
+      <span class="font-label-caps text-outline uppercase">
+        DHT22 Digital Sensor
+      </span>
+
+    </div>
+
+    <span
+      class="px-space-sm py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary font-semibold"
+      id="badge-temp"
+    >
+      NORMAL
+    </span>
+
+  </div>
+
+
+  <div class="mt-space-md">
+
+    <span class="font-label-caps text-on-surface-variant uppercase">
+      Ambient Temperature
+    </span>
+
+    <div class="flex items-baseline gap-space-xs mt-1">
+
+      <span
+        class="font-mono-metric-xl text-on-surface font-bold"
+        id="val-temp"
+      >
+        24.0
+      </span>
+
+      <span class="font-mono-metric-lg text-outline">
+        °C
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="mt-space-md bg-surface-container/60 p-space-sm rounded-lg">
+
+    <div class="flex justify-between items-center text-label-caps text-outline uppercase mb-1.5">
+
+      <span>0°C</span>
+
+      <span class="text-primary font-semibold">
+        Limit: 40°C
+      </span>
+
+      <span>60°C</span>
+
+    </div>
+
+
+    <div class="relative w-full h-2.5 bg-surface-container-high rounded-full overflow-hidden">
+
+      <div
+        class="h-full bg-primary rounded-full transition-all duration-300"
+        id="bar-temp"
+        style="width:40%"
+      ></div>
+
+      <div
+        class="absolute top-0 bottom-0 left-[66.6%] w-0.5 bg-error"
+      ></div>
+
+    </div>
+
+
+    <div class="flex items-center justify-between mt-2 font-mono-metric-sm text-on-surface-variant">
+
+      <span>
+        Threshold
+      </span>
+
+      <span
+        class="text-tertiary"
+        id="delta-temp"
+      >
+        Safe
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- HUMIDITY -->
+
+<div
+  class="flex flex-col p-space-lg rounded-xl bg-surface-container-low transition-all duration-300"
+  id="card-humidity"
+>
+
+  <div class="flex items-center justify-between">
+
+    <div class="flex items-center gap-space-xs">
+
+      <span class="w-2 h-2 rounded-full bg-secondary"></span>
+
+      <span class="font-label-caps text-outline uppercase">
+        DHT22 RH Sensor
+      </span>
+
+    </div>
+
+    <span
+      class="px-space-sm py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary font-semibold"
+      id="badge-humidity"
+    >
+      NORMAL
+    </span>
+
+  </div>
+
+
+  <div class="mt-space-md">
+
+    <span class="font-label-caps text-on-surface-variant uppercase">
+      Relative Humidity
+    </span>
+
+    <div class="flex items-baseline gap-space-xs mt-1">
+
+      <span
+        class="font-mono-metric-xl text-on-surface font-bold"
+        id="val-humidity"
+      >
+        42.0
+      </span>
+
+      <span class="font-mono-metric-lg text-outline">
+        %
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="mt-space-md bg-surface-container/60 p-space-sm rounded-lg">
+
+    <div class="flex justify-between items-center text-label-caps text-outline uppercase mb-1.5">
+
+      <span>0%</span>
+
+      <span class="text-secondary font-semibold">
+        Limit: 80%
+      </span>
+
+      <span>100%</span>
+
+    </div>
+
+
+    <div class="relative w-full h-2.5 bg-surface-container-high rounded-full overflow-hidden">
+
+      <div
+        class="h-full bg-secondary rounded-full transition-all duration-300"
+        id="bar-humidity"
+        style="width:42%"
+      ></div>
+
+      <div
+        class="absolute top-0 bottom-0 left-[80%] w-0.5 bg-error"
+      ></div>
+
+    </div>
+
+
+    <div class="flex items-center justify-between mt-2 font-mono-metric-sm text-on-surface-variant">
+
+      <span>
+        Threshold
+      </span>
+
+      <span
+        class="text-tertiary"
+        id="delta-humidity"
+      >
+        Safe
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- GAS -->
+
+<div
+  class="flex flex-col p-space-lg rounded-xl bg-surface-container-low transition-all duration-300"
+  id="card-gas"
+>
+
+  <div class="flex items-center justify-between">
+
+    <div class="flex items-center gap-space-xs">
+
+      <span class="w-2 h-2 rounded-full bg-tertiary"></span>
+
+      <span class="font-label-caps text-outline uppercase">
+        MQ-2 Analog Sensor
+      </span>
+
+    </div>
+
+    <span
+      class="px-space-sm py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary font-semibold"
+      id="badge-gas"
+    >
+      NORMAL
+    </span>
+
+  </div>
+
+
+  <div class="mt-space-md">
+
+    <span class="font-label-caps text-on-surface-variant uppercase">
+      Gas Sensor Level
+    </span>
+
+    <div class="flex items-baseline gap-space-xs mt-1">
+
+      <span
+        class="font-mono-metric-xl text-on-surface font-bold"
+        id="val-gas"
+      >
+        280
+      </span>
+
+      <span class="font-mono-metric-lg text-outline">
+        ADC
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <div class="mt-space-md bg-surface-container/60 p-space-sm rounded-lg">
+
+    <div class="flex justify-between items-center text-label-caps text-outline uppercase mb-1.5">
+
+      <span>0</span>
+
+      <span class="text-tertiary font-semibold">
+        Limit: 500
+      </span>
+
+      <span>4095</span>
+
+    </div>
+
+
+    <div class="relative w-full h-2.5 bg-surface-container-high rounded-full overflow-hidden">
+
+      <div
+        class="h-full bg-tertiary rounded-full transition-all duration-300"
+        id="bar-gas"
+        style="width:7%"
+      ></div>
+
+      <div
+        class="absolute top-0 bottom-0 left-[12.2%] w-0.5 bg-error"
+      ></div>
+
+    </div>
+
+
+    <div class="flex items-center justify-between mt-2 font-mono-metric-sm text-on-surface-variant">
+
+      <span>
+        MQ-2 ADC Reading
+      </span>
+
+      <span
+        class="text-tertiary"
+        id="delta-gas"
+      >
+        Safe
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+
+<!-- ================= SIMULATOR ================= -->
+
+<div class="p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+
+  <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md pb-space-md">
+
+    <div>
+
+      <div class="flex items-center gap-space-xs">
+
+        <span class="material-symbols-outlined text-primary text-[20px]">
+          tune
+        </span>
+
+        <h3 class="font-headline-md text-on-surface">
+          Interactive Hardware Simulator
+        </h3>
+
+        <span class="px-space-xs py-0.5 rounded bg-surface-container-high font-mono-metric-sm text-primary">
+          Wokwi
+        </span>
+
+      </div>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        Manually simulate sensor readings and verify the threshold logic.
+      </p>
+
+    </div>
+
+
+    <div class="flex items-center gap-space-xs text-on-surface-variant font-mono-metric-sm">
+
+      <span class="material-symbols-outlined text-[16px]">
+        info
+      </span>
+
+      <span>
+        MQ-2 ADC Resolution: 12-bit (0-4095)
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- INPUTS -->
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mt-space-sm">
+
+
+    <!-- TEMP INPUT -->
+
+    <div class="flex flex-col gap-space-xs p-space-md bg-surface-container rounded-lg">
+
+      <label
+        class="flex justify-between items-center text-label-caps text-outline uppercase"
+        for="input-temp"
+      >
+
+        <span>
+          Temperature
+        </span>
+
+        <span class="text-primary">
+          DHT22
+        </span>
+
+      </label>
+
+
+      <div class="relative flex items-center mt-1">
+
+        <input
+          class="w-full bg-surface-container-lowest text-on-surface px-space-md py-2.5 rounded font-mono-metric-md focus:outline-none focus:ring-1 focus:ring-primary"
+          id="input-temp"
+          max="80"
+          min="-20"
+          step="0.5"
+          type="number"
+          value="24"
+        />
+
+        <span class="absolute right-3 text-outline">
+          °C
+        </span>
+
+      </div>
+
+
+      <span class="font-body-sm text-on-surface-variant">
+        Alert when &gt; 40°C
+      </span>
+
+    </div>
+
+
+    <!-- HUMIDITY INPUT -->
+
+    <div class="flex flex-col gap-space-xs p-space-md bg-surface-container rounded-lg">
+
+      <label
+        class="flex justify-between items-center text-label-caps text-outline uppercase"
+        for="input-humidity"
+      >
+
+        <span>
+          Humidity
+        </span>
+
+        <span class="text-secondary">
+          DHT22
+        </span>
+
+      </label>
+
+
+      <div class="relative flex items-center mt-1">
+
+        <input
+          class="w-full bg-surface-container-lowest text-on-surface px-space-md py-2.5 rounded font-mono-metric-md focus:outline-none focus:ring-1 focus:ring-primary"
+          id="input-humidity"
+          max="100"
+          min="0"
+          step="1"
+          type="number"
+          value="42"
+        />
+
+        <span class="absolute right-3 text-outline">
+          %
+        </span>
+
+      </div>
+
+
+      <span class="font-body-sm text-on-surface-variant">
+        Alert when &gt; 80%
+      </span>
+
+    </div>
+
+
+    <!-- GAS INPUT -->
+
+    <div class="flex flex-col gap-space-xs p-space-md bg-surface-container rounded-lg">
+
+      <label
+        class="flex justify-between items-center text-label-caps text-outline uppercase"
+        for="input-gas"
+      >
+
+        <span>
+          Gas Level
+        </span>
+
+        <span class="text-tertiary">
+          MQ-2 ADC
+        </span>
+
+      </label>
+
+
+      <div class="relative flex items-center mt-1">
+
+        <input
+          class="w-full bg-surface-container-lowest text-on-surface px-space-md py-2.5 rounded font-mono-metric-md focus:outline-none focus:ring-1 focus:ring-primary"
+          id="input-gas"
+          max="4095"
+          min="0"
+          step="1"
+          type="number"
+          value="280"
+        />
+
+        <span class="absolute right-3 text-outline">
+          ADC
+        </span>
+
+      </div>
+
+
+      <span class="font-body-sm text-on-surface-variant">
+        Alert when &gt; 500
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- BUTTONS -->
+
+  <div class="flex flex-col gap-space-md mt-space-md pt-space-md">
+
+
+    <div class="flex flex-wrap items-center gap-space-xs">
+
+      <span class="font-label-caps text-outline uppercase mr-1">
+        Demo Scenarios:
+      </span>
+
+
+      <button
+        class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors"
+        id="preset-normal"
+      >
+        🟢 Normal
+      </button>
+
+
+      <button
+        class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors"
+        id="preset-gas"
+      >
+        🔴 Gas Alert
+      </button>
+
+
+      <button
+        class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors"
+        id="preset-temp"
+      >
+        🔴 Temp Alert
+      </button>
+
+
+      <button
+        class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors"
+        id="preset-multi"
+      >
+        🔴 Multi-Alert
+      </button>
+
+
+      <button
+        class="px-space-sm py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-outline hover:text-on-surface transition-colors"
+        id="btn-reset"
+      >
+        Reset
+      </button>
+
+    </div>
+
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-space-sm">
+
+
+      <!-- MANUAL UPDATE -->
+
+      <button
+        class="flex items-center justify-center gap-space-sm px-space-lg py-3 bg-primary-container hover:bg-primary text-on-primary font-headline-sm rounded-lg shadow-sm transition-all"
+        id="btn-update-dashboard"
+      >
+
+        <span class="material-symbols-outlined text-[20px]">
+          sync
+        </span>
+
+        <span>
+          Update Dashboard
+        </span>
+
+      </button>
+
+
+      <!-- THINGSPEAK -->
+
+      <button
+        class="flex items-center justify-center gap-space-sm px-space-lg py-3 bg-tertiary-container hover:bg-tertiary text-on-tertiary font-headline-sm rounded-lg shadow-sm transition-all"
+        id="btn-live-thingspeak"
+      >
+
+        <span class="material-symbols-outlined text-[20px]">
+          cloud_sync
+        </span>
+
+        <span>
+          Fetch Live ThingSpeak Data
+        </span>
+
+      </button>
+
+    </div>
+
+
+    <!-- THINGSPEAK MESSAGE -->
+
+    <div
+      class="flex items-center gap-space-sm p-space-sm rounded-lg bg-surface-container"
+      id="thingspeak-status"
+    >
+
+      <span
+        class="material-symbols-outlined text-primary"
+        id="thingspeak-status-icon"
+      >
+        cloud
+      </span>
+
+      <span
+        class="font-body-sm text-on-surface-variant"
+        id="thingspeak-status-text"
+      >
+        Ready to fetch the latest data from ThingSpeak Channel #3524286.
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= ALERT MATRIX ================= -->
+
+<div class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-space-md gap-space-xs">
+
+    <div>
+
+      <div class="flex items-center gap-space-xs">
+
+        <span class="material-symbols-outlined text-secondary text-[20px]">
+          rule
+        </span>
+
+        <h3 class="font-headline-md text-on-surface">
+          Rule Verification Matrix
+        </h3>
+
+      </div>
+
+      <p class="font-body-sm text-on-surface-variant mt-0.5">
+        Each sensor is independently compared against its threshold.
+      </p>
+
+    </div>
+
+    <span class="font-mono-metric-sm text-outline px-space-sm py-1 rounded bg-surface-container">
+      EVALUATION: OR-LOGIC
+    </span>
+
+  </div>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+
+
+    <!-- TEMP RULE -->
+
+    <div
+      class="p-space-md rounded-lg bg-surface-container transition-colors"
+      id="rule-box-temp"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <span class="font-label-caps text-outline uppercase">
+          Temperature Rule
+        </span>
+
+        <span
+          class="px-space-xs py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary"
+          id="rule-chip-temp"
+        >
+          0 - NORMAL
+        </span>
+
+      </div>
+
+
+      <div class="my-space-md">
+
+        <div class="font-mono-metric-md text-on-surface font-semibold">
+          Temp &gt; 40°C
+        </div>
+
+        <div
+          class="font-body-sm text-on-surface-variant mt-1"
+          id="rule-eval-temp"
+        >
+          Current: 24°C
+        </div>
+
+      </div>
+
+
+      <span
+        class="material-symbols-outlined text-[16px] text-tertiary"
+        id="rule-icon-temp"
+      >
+        check_circle
+      </span>
+
+    </div>
+
+
+    <!-- HUMIDITY RULE -->
+
+    <div
+      class="p-space-md rounded-lg bg-surface-container transition-colors"
+      id="rule-box-humidity"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <span class="font-label-caps text-outline uppercase">
+          Humidity Rule
+        </span>
+
+        <span
+          class="px-space-xs py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary"
+          id="rule-chip-humidity"
+        >
+          0 - NORMAL
+        </span>
+
+      </div>
+
+
+      <div class="my-space-md">
+
+        <div class="font-mono-metric-md text-on-surface font-semibold">
+          Humidity &gt; 80%
+        </div>
+
+        <div
+          class="font-body-sm text-on-surface-variant mt-1"
+          id="rule-eval-humidity"
+        >
+          Current: 42%
+        </div>
+
+      </div>
+
+
+      <span
+        class="material-symbols-outlined text-[16px] text-tertiary"
+        id="rule-icon-humidity"
+      >
+        check_circle
+      </span>
+
+    </div>
+
+
+    <!-- GAS RULE -->
+
+    <div
+      class="p-space-md rounded-lg bg-surface-container transition-colors"
+      id="rule-box-gas"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <span class="font-label-caps text-outline uppercase">
+          Gas Rule
+        </span>
+
+        <span
+          class="px-space-xs py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary"
+          id="rule-chip-gas"
+        >
+          0 - NORMAL
+        </span>
+
+      </div>
+
+
+      <div class="my-space-md">
+
+        <div class="font-mono-metric-md text-on-surface font-semibold">
+          Gas Level &gt; 500
+        </div>
+
+        <div
+          class="font-body-sm text-on-surface-variant mt-1"
+          id="rule-eval-gas"
+        >
+          Current: 280 ADC
+        </div>
+
+      </div>
+
+
+      <span
+        class="material-symbols-outlined text-[16px] text-tertiary"
+        id="rule-icon-gas"
+      >
+        check_circle
+      </span>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= CHARTS ================= -->
+
+<div class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+
+  <div class="pb-space-md">
+
+    <div class="flex items-center gap-space-xs">
+
+      <span class="material-symbols-outlined text-primary text-[20px]">
+        show_chart
+      </span>
+
+      <h3 class="font-headline-md text-on-surface">
+        Sensor History
+      </h3>
+
+    </div>
+
+    <p class="font-body-sm text-on-surface-variant mt-0.5">
+      Recent sensor readings displayed as live traces.
+    </p>
+
+  </div>
+
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-space-lg">
+
+
+    <!-- TEMP CHART -->
+
+    <div class="bg-surface-container p-space-md rounded-lg">
+
+      <div class="flex justify-between items-center mb-space-sm">
+
+        <span class="font-label-caps text-on-surface uppercase">
+          Temperature (°C)
+        </span>
+
+        <span class="font-mono-metric-sm text-error">
+          Limit: 40°C
+        </span>
+
+      </div>
+
+      <div class="w-full h-44">
+
+        <svg
+          class="w-full h-full"
+          id="svg-chart-temp"
+          viewBox="0 0 300 120"
+          preserveAspectRatio="none"
+        ></svg>
+
+      </div>
+
+    </div>
+
+
+    <!-- HUMIDITY CHART -->
+
+    <div class="bg-surface-container p-space-md rounded-lg">
+
+      <div class="flex justify-between items-center mb-space-sm">
+
+        <span class="font-label-caps text-on-surface uppercase">
+          Humidity (%)
+        </span>
+
+        <span class="font-mono-metric-sm text-error">
+          Limit: 80%
+        </span>
+
+      </div>
+
+      <div class="w-full h-44">
+
+        <svg
+          class="w-full h-full"
+          id="svg-chart-humidity"
+          viewBox="0 0 300 120"
+          preserveAspectRatio="none"
+        ></svg>
+
+      </div>
+
+    </div>
+
+
+    <!-- GAS CHART -->
+
+    <div class="bg-surface-container p-space-md rounded-lg">
+
+      <div class="flex justify-between items-center mb-space-sm">
+
+        <span class="font-label-caps text-on-surface uppercase">
+          Gas Level (ADC)
+        </span>
+
+        <span class="font-mono-metric-sm text-error">
+          Limit: 500
+        </span>
+
+      </div>
+
+      <div class="w-full h-44">
+
+        <svg
+          class="w-full h-full"
+          id="svg-chart-gas"
+          viewBox="0 0 300 120"
+          preserveAspectRatio="none"
+        ></svg>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= ARCHITECTURE ================= -->
+
+<div class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+
+  <div class="pb-space-lg">
+
+    <div class="flex items-center gap-space-xs">
+
+      <span class="material-symbols-outlined text-primary text-[20px]">
+        hub
+      </span>
+
+      <h3 class="font-headline-md text-on-surface">
+        End-to-End System Architecture
+      </h3>
+
+    </div>
+
+    <p class="font-body-sm text-on-surface-variant mt-0.5">
+      Sensor to cloud to dashboard data flow.
+    </p>
+
+  </div>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-space-md">
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <span class="font-label-caps text-outline uppercase">
+        Stage 01
+      </span>
+
+      <h4 class="font-headline-sm text-on-surface mt-2">
+        Environmental Sensors
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        DHT22 measures temperature and humidity. MQ-2 provides an analog gas sensor reading.
+      </p>
+
+      <div class="mt-space-md font-mono-metric-sm text-primary">
+        DHT22 → GPIO 15
+      </div>
+
+      <div class="font-mono-metric-sm text-primary">
+        MQ-2 → GPIO 34
+      </div>
+
+    </div>
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <span class="font-label-caps text-outline uppercase">
+        Stage 02
+      </span>
+
+      <h4 class="font-headline-sm text-on-surface mt-2">
+        ESP32
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        Reads sensors, checks thresholds and prepares the telemetry request.
+      </p>
+
+      <div class="mt-space-md font-mono-metric-sm text-primary">
+        Wokwi Simulation
+      </div>
+
+    </div>
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <span class="font-label-caps text-outline uppercase">
+        Stage 03
+      </span>
+
+      <h4 class="font-headline-sm text-on-surface mt-2">
+        Wi-Fi
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        ESP32 connects to Wi-Fi and sends sensor data to the cloud.
+      </p>
+
+      <div class="mt-space-md font-mono-metric-sm text-primary">
+        HTTP / HTTPS
+      </div>
+
+    </div>
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <span class="font-label-caps text-outline uppercase">
+        Stage 04
+      </span>
+
+      <h4 class="font-headline-sm text-on-surface mt-2">
+        ThingSpeak
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        Stores temperature, humidity, gas and alert values as time-series data.
+      </p>
+
+      <div class="mt-space-md font-mono-metric-sm text-primary">
+        Channel #3524286
+      </div>
+
+    </div>
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <span class="font-label-caps text-outline uppercase">
+        Stage 05
+      </span>
+
+      <h4 class="font-headline-sm text-on-surface mt-2">
+        Custom Dashboard
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        Fetches the latest ThingSpeak values and displays sensor status and alerts.
+      </p>
+
+      <div class="mt-space-md font-mono-metric-sm text-primary">
+        HTML + JavaScript
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- NOTE -->
+
+  <div class="mt-space-lg p-space-md bg-surface-container rounded-lg flex items-start gap-space-sm">
+
+    <span class="material-symbols-outlined text-secondary text-[22px]">
+      info
+    </span>
+
+    <div>
+
+      <span class="font-headline-sm text-on-surface">
+        Hardware Specification Note
+      </span>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        The original problem statement specifies DHT11. This prototype uses DHT22 in Wokwi because it is the sensor available in the simulation. The MQ-2 value shown here is an ADC reading from 0-4095, not a calibrated PPM concentration.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= SECURITY ================= -->
+
+<div class="flex flex-col p-space-lg rounded-xl bg-surface-container-low shadow-sm">
+
+  <div class="flex items-center gap-space-xs">
+
+    <span class="material-symbols-outlined text-primary">
+      security
+    </span>
+
+    <h3 class="font-headline-md text-on-surface">
+      Security Considerations
+    </h3>
+
+  </div>
+
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-space-md mt-space-md">
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <h4 class="font-headline-sm text-on-surface">
+        Open Ports
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        IoT devices exposed to unnecessary network ports can become attack targets.
+      </p>
+
+    </div>
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <h4 class="font-headline-sm text-on-surface">
+        Default Credentials
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        Default usernames and passwords should be replaced with strong credentials.
+      </p>
+
+    </div>
+
+
+    <div class="p-space-md rounded-lg bg-surface-container">
+
+      <h4 class="font-headline-sm text-on-surface">
+        Unencrypted Data
+      </h4>
+
+      <p class="font-body-sm text-on-surface-variant mt-1">
+        HTTPS/TLS should be used when transmitting IoT data over the internet.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+</div>
+</main>
+
+</div>
+
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+/* =========================================================
+   PROJECT SETTINGS
+   ========================================================= */
+
+const THINGSPEAK_CHANNEL_ID = "3524286";
+
+const THINGSPEAK_URL =
+  `https://api.thingspeak.com/channels/${THINGSPEAK_CHANNEL_ID}/feeds/last.json`;
+
+
+const THRESHOLDS = {
+
+  temp: 40.0,
+
+  humidity: 80.0,
+
+  gas: 500
+
+};
+
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
+
+const telemetryHistory = {
+
+  temp: [23.1, 23.4, 23.8, 24.2, 23.9, 24.0],
+
+  humidity: [44, 43.5, 42.8, 43, 41.9, 42],
+
+  gas: [260, 275, 270, 285, 278, 280]
+
+};
+
+
+/* =========================================================
+   TIME
+   ========================================================= */
+
+function getTimeString() {
+
+  const d = new Date();
+
+  return d.toLocaleTimeString();
+
+}
+
+
+/* =========================================================
+   UPDATE CLOCK
+   ========================================================= */
+
+function updateClock() {
+
+  document.getElementById("clock").innerText =
+    getTimeString();
+
+}
+
+
+/* =========================================================
+   CHART DRAWING
+   ========================================================= */
+
+function drawSvgChart(
+  svgId,
+  data,
+  threshold,
+  minVal,
+  maxVal,
+  strokeColor
+) {
+
+  const svg = document.getElementById(svgId);
+
+  if (!svg) return;
+
+
+  const width = 300;
+
+  const height = 120;
+
+  const padX = 15;
+
+  const padY = 15;
+
+  const chartW = width - padX * 2;
+
+  const chartH = height - padY * 2;
+
+
+  const normThreshold =
+    Math.max(
+      0,
+      Math.min(
+        1,
+        (threshold - minVal) /
+        (maxVal - minVal)
+      )
+    );
+
+
+  const thresholdY =
+    height -
+    padY -
+    normThreshold * chartH;
+
+
+  const stepX =
+    chartW /
+    (data.length - 1);
+
+
+  const points = data.map((value, index) => {
+
+    const normalized =
+      Math.max(
+        0,
+        Math.min(
+          1,
+          (value - minVal) /
+          (maxVal - minVal)
+        )
+      );
+
+
+    return {
+
+      x: padX + index * stepX,
+
+      y:
+        height -
+        padY -
+        normalized * chartH,
+
+      value
+
+    };
+
+  });
+
+
+  let path = "";
+
+  points.forEach((point, index) => {
+
+    path +=
+      index === 0
+        ? `M ${point.x} ${point.y}`
+        : ` L ${point.x} ${point.y}`;
+
+  });
+
+
+  let html = `
+
+    <line
+      x1="${padX}"
+      y1="${padY}"
+      x2="${width-padX}"
+      y2="${padY}"
+      stroke="#242a3a"
+    />
+
+    <line
+      x1="${padX}"
+      y1="${height/2}"
+      x2="${width-padX}"
+      y2="${height/2}"
+      stroke="#242a3a"
+    />
+
+    <line
+      x1="${padX}"
+      y1="${height-padY}"
+      x2="${width-padX}"
+      y2="${height-padY}"
+      stroke="#242a3a"
+    />
+
+    <line
+      x1="${padX}"
+      y1="${thresholdY}"
+      x2="${width-padX}"
+      y2="${thresholdY}"
+      stroke="#ffb4ab"
+      stroke-width="1.5"
+      stroke-dasharray="4 4"
+    />
+
+    <path
+      d="${path}"
+      fill="none"
+      stroke="${strokeColor}"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+
+  `;
+
+
+  points.forEach((point, index) => {
+
+    const alert =
+      point.value > threshold;
+
+    const color =
+      alert
+        ? "#ffb4ab"
+        : strokeColor;
+
+
+    html += `
+
+      <circle
+        cx="${point.x}"
+        cy="${point.y}"
+        r="${index === points.length-1 ? 4 : 2.5}"
+        fill="${color}"
+      />
+
+    `;
+
+  });
+
+
+  svg.innerHTML = html;
+
+}
+
+
+/* =========================================================
+   RENDER ALL CHARTS
+   ========================================================= */
+
+function renderCharts() {
+
+  drawSvgChart(
+    "svg-chart-temp",
+    telemetryHistory.temp,
+    THRESHOLDS.temp,
+    0,
+    60,
+    "#4cd7f6"
+  );
+
+
+  drawSvgChart(
+    "svg-chart-humidity",
+    telemetryHistory.humidity,
+    THRESHOLDS.humidity,
+    0,
+    100,
+    "#adc6ff"
+  );
+
+
+  drawSvgChart(
+    "svg-chart-gas",
+    telemetryHistory.gas,
+    THRESHOLDS.gas,
+    0,
+    4095,
+    "#4edea3"
+  );
+
+}
+
+
+/* =========================================================
+   STATUS MESSAGE
+   ========================================================= */
+
+function setThingSpeakStatus(
+  message,
+  type = "normal"
+) {
+
+  const text =
+    document.getElementById(
+      "thingspeak-status-text"
+    );
+
+  const icon =
+    document.getElementById(
+      "thingspeak-status-icon"
+    );
+
+
+  text.innerText = message;
+
+
+  if (type === "error") {
+
+    icon.innerText = "error";
+
+    icon.className =
+      "material-symbols-outlined text-error";
+
+  }
+
+  else if (type === "success") {
+
+    icon.innerText = "cloud_done";
+
+    icon.className =
+      "material-symbols-outlined text-tertiary";
+
+  }
+
+  else {
+
+    icon.innerText = "cloud";
+
+    icon.className =
+      "material-symbols-outlined text-primary";
+
+  }
+
+}
+
+
+/* =========================================================
+   EVALUATE SENSOR DATA
+   ========================================================= */
+
+function evaluateTelemetry(
+  tempVal,
+  humVal,
+  gasVal
+) {
+
+
+  /* ALERT LOGIC */
+
+  const isTempAlert =
+    tempVal > THRESHOLDS.temp;
+
+
+  const isHumAlert =
+    humVal > THRESHOLDS.humidity;
+
+
+  const isGasAlert =
+    gasVal > THRESHOLDS.gas;
+
+
+  const isSystemAlert =
+    isTempAlert ||
+    isHumAlert ||
+    isGasAlert;
+
+
+  /* =====================================================
+     SENSOR VALUES
+     ===================================================== */
+
+  document.getElementById(
+    "val-temp"
+  ).innerText =
+    tempVal.toFixed(1);
+
+
+  document.getElementById(
+    "val-humidity"
+  ).innerText =
+    humVal.toFixed(1);
+
+
+  document.getElementById(
+    "val-gas"
+  ).innerText =
+    Math.round(gasVal);
+
+
+  /* =====================================================
+     TEMPERATURE GAUGE
+     ===================================================== */
+
+  const tempPercent =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        tempVal / 60 * 100
+      )
+    );
+
+
+  document.getElementById(
+    "bar-temp"
+  ).style.width =
+    tempPercent + "%";
+
+
+  const tempDifference =
+    tempVal - THRESHOLDS.temp;
+
+
+  const tempDelta =
+    document.getElementById(
+      "delta-temp"
+    );
+
+
+  if (isTempAlert) {
+
+    tempDelta.innerText =
+      `ALERT: +${tempDifference.toFixed(1)}°C above limit`;
+
+    tempDelta.className =
+      "text-error font-semibold";
+
+  }
+
+  else {
+
+    tempDelta.innerText =
+      `Safe: ${Math.abs(tempDifference).toFixed(1)}°C below limit`;
+
+    tempDelta.className =
+      "text-tertiary";
+
+  }
+
+
+  /* =====================================================
+     HUMIDITY GAUGE
+     ===================================================== */
+
+  document.getElementById(
+    "bar-humidity"
+  ).style.width =
+    Math.max(
+      0,
+      Math.min(100, humVal)
+    ) + "%";
+
+
+  const humidityDifference =
+    humVal - THRESHOLDS.humidity;
+
+
+  const humidityDelta =
+    document.getElementById(
+      "delta-humidity"
+    );
+
+
+  if (isHumAlert) {
+
+    humidityDelta.innerText =
+      `ALERT: +${humidityDifference.toFixed(1)}% above limit`;
+
+    humidityDelta.className =
+      "text-error font-semibold";
+
+  }
+
+  else {
+
+    humidityDelta.innerText =
+      `Safe: ${Math.abs(humidityDifference).toFixed(1)}% below limit`;
+
+    humidityDelta.className =
+      "text-tertiary";
+
+  }
+
+
+  /* =====================================================
+     GAS GAUGE
+     ===================================================== */
+
+  document.getElementById(
+    "bar-gas"
+  ).style.width =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        gasVal / 4095 * 100
+      )
+    ) + "%";
+
+
+  const gasDifference =
+    gasVal - THRESHOLDS.gas;
+
+
+  const gasDelta =
+    document.getElementById(
+      "delta-gas"
+    );
+
+
+  if (isGasAlert) {
+
+    gasDelta.innerText =
+      `ALERT: +${Math.round(gasDifference)} above limit`;
+
+    gasDelta.className =
+      "text-error font-semibold";
+
+  }
+
+  else {
+
+    gasDelta.innerText =
+      `Safe: ${Math.abs(Math.round(gasDifference))} below limit`;
+
+    gasDelta.className =
+      "text-tertiary";
+
+  }
+
+
+  /* =====================================================
+     CARD STATE
+     ===================================================== */
+
+  function updateCard(
+    cardId,
+    badgeId,
+    alert
+  ) {
+
+    const card =
+      document.getElementById(cardId);
+
+    const badge =
+      document.getElementById(badgeId);
+
+
+    if (alert) {
+
+      badge.innerText = "ALERT";
+
+      badge.className =
+        "px-space-sm py-0.5 rounded text-mono-metric-sm bg-error/20 text-error font-bold animate-pulse";
+
+      card.classList.add(
+        "ring-1",
+        "ring-error"
+      );
+
+    }
+
+    else {
+
+      badge.innerText = "NORMAL";
+
+      badge.className =
+        "px-space-sm py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary font-semibold";
+
+      card.classList.remove(
+        "ring-1",
+        "ring-error"
+      );
+
+    }
+
+  }
+
+
+  updateCard(
+    "card-temp",
+    "badge-temp",
+    isTempAlert
+  );
+
+
+  updateCard(
+    "card-humidity",
+    "badge-humidity",
+    isHumAlert
+  );
+
+
+  updateCard(
+    "card-gas",
+    "badge-gas",
+    isGasAlert
+  );
+
+
+  /* =====================================================
+     RULE MATRIX
+     ===================================================== */
+
+  function updateRule(
+    boxId,
+    chipId,
+    evaluationId,
+    iconId,
+    alert,
+    currentText
+  ) {
+
+    const box =
+      document.getElementById(boxId);
+
+    const chip =
+      document.getElementById(chipId);
+
+    const evaluation =
+      document.getElementById(evaluationId);
+
+    const icon =
+      document.getElementById(iconId);
+
+
+    if (alert) {
+
+      chip.innerText =
+        "1 - ALERT";
+
+      chip.className =
+        "px-space-xs py-0.5 rounded text-mono-metric-sm bg-error/20 text-error font-bold";
+
+      evaluation.innerText =
+        `Current: ${currentText} (BREACH)`;
+
+      evaluation.className =
+        "font-body-sm text-error font-semibold mt-1";
+
+      icon.innerText =
+        "warning";
+
+      icon.className =
+        "material-symbols-outlined text-[16px] text-error";
+
+      box.classList.add(
+        "bg-error/5"
+      );
+
+    }
+
+    else {
+
+      chip.innerText =
+        "0 - NORMAL";
+
+      chip.className =
+        "px-space-xs py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary";
+
+      evaluation.innerText =
+        `Current: ${currentText} (PASS: Safe)`;
+
+      evaluation.className =
+        "font-body-sm text-on-surface-variant mt-1";
+
+      icon.innerText =
+        "check_circle";
+
+      icon.className =
+        "material-symbols-outlined text-[16px] text-tertiary";
+
+      box.classList.remove(
+        "bg-error/5"
+      );
+
+    }
+
+  }
+
+
+  updateRule(
+    "rule-box-temp",
+    "rule-chip-temp",
+    "rule-eval-temp",
+    "rule-icon-temp",
+    isTempAlert,
+    `${tempVal.toFixed(1)}°C`
+  );
+
+
+  updateRule(
+    "rule-box-humidity",
+    "rule-chip-humidity",
+    "rule-eval-humidity",
+    "rule-icon-humidity",
+    isHumAlert,
+    `${humVal.toFixed(1)}%`
+  );
+
+
+  updateRule(
+    "rule-box-gas",
+    "rule-chip-gas",
+    "rule-eval-gas",
+    "rule-icon-gas",
+    isGasAlert,
+    `${Math.round(gasVal)} ADC`
+  );
+
+
+  /* =====================================================
+     OVERALL SYSTEM STATUS
+     ===================================================== */
+
+  const banner =
+    document.getElementById(
+      "system-banner"
+    );
+
+  const bannerTitle =
+    document.getElementById(
+      "banner-status-title"
+    );
+
+  const bannerDescription =
+    document.getElementById(
+      "banner-status-desc"
+    );
+
+  const bannerIcon =
+    document.getElementById(
+      "banner-icon"
+    );
+
+  const bannerIconBox =
+    document.getElementById(
+      "banner-icon-box"
+    );
+
+  const bannerChip =
+    document.getElementById(
+      "banner-status-chip"
+    );
+
+  const breachCount =
+    document.getElementById(
+      "banner-breach-count"
+    );
+
+  const breachBar =
+    document.getElementById(
+      "banner-breach-bar"
+    );
+
+  const incidentText =
+    document.getElementById(
+      "banner-incident-text"
+    );
+
+
+  const alerts = [];
+
+
+  if (isTempAlert) {
+
+    alerts.push(
+      `Temperature ${tempVal.toFixed(1)}°C`
+    );
+
+  }
+
+
+  if (isHumAlert) {
+
+    alerts.push(
+      `Humidity ${humVal.toFixed(1)}%`
+    );
+
+  }
+
+
+  if (isGasAlert) {
+
+    alerts.push(
+      `Gas Level ${Math.round(gasVal)}`
+    );
+
+  }
+
+
+  const numberOfAlerts =
+    alerts.length;
+
+
+  breachCount.innerText =
+    `${numberOfAlerts} / 3`;
+
+
+  breachBar.style.width =
+    `${numberOfAlerts / 3 * 100}%`;
+
+
+  if (isSystemAlert) {
+
+    banner.classList.add(
+      "bg-error/10"
+    );
+
+
+    bannerIconBox.className =
+      "w-14 h-14 rounded-xl flex items-center justify-center bg-error/20 text-error";
+
+
+    bannerIcon.innerText =
+      "warning";
+
+
+    bannerChip.innerText =
+      "ALERT";
+
+
+    bannerChip.className =
+      "px-space-sm py-0.5 rounded text-mono-metric-sm bg-error/20 text-error font-bold uppercase animate-pulse";
+
+
+    bannerTitle.innerText =
+      "SYSTEM STATUS: ALERT";
+
+
+    bannerTitle.className =
+      "font-display-lg text-display-lg text-error tracking-tight";
+
+
+    bannerDescription.innerText =
+      `Threshold exceeded: ${alerts.join(" | ")}.`;
+
+
+    breachBar.className =
+      "bg-error h-full transition-all duration-300";
+
+
+    breachCount.className =
+      "font-mono-metric-lg text-error";
+
+
+    incidentText.innerText =
+      "Status: Attention Required";
+
+
+    incidentText.className =
+      "font-label-caps text-error uppercase mt-1 font-bold";
+
+  }
+
+  else {
+
+    banner.classList.remove(
+      "bg-error/10"
+    );
+
+
+    bannerIconBox.className =
+      "w-14 h-14 rounded-xl flex items-center justify-center bg-tertiary/10 text-tertiary";
+
+
+    bannerIcon.innerText =
+      "shield_check";
+
+
+    bannerChip.innerText =
+      "NORMAL";
+
+
+    bannerChip.className =
+      "px-space-sm py-0.5 rounded text-mono-metric-sm bg-tertiary/15 text-tertiary font-semibold uppercase";
+
+
+    bannerTitle.innerText =
+      "SYSTEM STATUS: NORMAL";
+
+
+    bannerTitle.className =
+      "font-display-lg text-display-lg text-on-surface tracking-tight";
+
+
+    bannerDescription.innerText =
+      "All environmental telemetry parameters are within the configured prototype thresholds.";
+
+
+    breachBar.className =
+      "bg-tertiary h-full transition-all duration-300";
+
+
+    breachCount.className =
+      "font-mono-metric-lg text-tertiary";
+
+
+    incidentText.innerText =
+      "Status: Normal";
+
+
+    incidentText.className =
+      "font-label-caps text-outline uppercase mt-1";
+
+  }
+
+
+  /* =====================================================
+     HISTORY
+     ===================================================== */
+
+  telemetryHistory.temp.push(
+    tempVal
+  );
+
+  telemetryHistory.temp.shift();
+
+
+  telemetryHistory.humidity.push(
+    humVal
+  );
+
+  telemetryHistory.humidity.shift();
+
+
+  telemetryHistory.gas.push(
+    gasVal
+  );
+
+  telemetryHistory.gas.shift();
+
+
+  renderCharts();
+
+
+  /* =====================================================
+     TIMESTAMP
+     ===================================================== */
+
+  document.getElementById(
+    "top-timestamp"
+  ).innerText =
+    getTimeString();
+
+}
+
+
+/* =========================================================
+   MANUAL UPDATE
+   ========================================================= */
+
+document
+  .getElementById("btn-update-dashboard")
+  .addEventListener(
+    "click",
+    () => {
+
+      const temperature =
+        parseFloat(
+          document.getElementById(
+            "input-temp"
+          ).value
+        );
+
+
+      const humidity =
+        parseFloat(
+          document.getElementById(
+            "input-humidity"
+          ).value
+        );
+
+
+      const gas =
+        parseFloat(
+          document.getElementById(
+            "input-gas"
+          ).value
+        );
+
+
+      evaluateTelemetry(
+        temperature || 0,
+        humidity || 0,
+        gas || 0
+      );
+
+
+      setThingSpeakStatus(
+        "Dashboard updated using manual sensor values.",
+        "normal"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   THINGSPEAK LIVE DATA
+   ========================================================= */
+
+async function fetchThingSpeakData() {
+
+  setThingSpeakStatus(
+    "Connecting to ThingSpeak Channel #3524286...",
+    "normal"
+  );
+
+
+  try {
+
+    const response =
+      await fetch(
+        THINGSPEAK_URL
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        `HTTP ${response.status}`
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    console.log(
+      "ThingSpeak response:",
+      data
+    );
+
+
+    /*
+      ThingSpeak fields:
+
+      field1 = Temperature
+      field2 = Humidity
+      field3 = Gas Level
+
+      field4 = Overall Alert
+      field5 = Temperature Alert
+      field6 = Humidity Alert
+      field7 = Gas Alert
+    */
+
+
+    const temperature =
+      parseFloat(data.field1);
+
+
+    const humidity =
+      parseFloat(data.field2);
+
+
+    const gas =
+      parseFloat(data.field3);
+
+
+    if (
+      Number.isNaN(temperature) ||
+      Number.isNaN(humidity) ||
+      Number.isNaN(gas)
+    ) {
+
+      throw new Error(
+        "ThingSpeak returned incomplete sensor data."
+      );
+
+    }
+
+
+    /* Put live values into the input boxes */
+
+    document.getElementById(
+      "input-temp"
+    ).value =
+      temperature;
+
+
+    document.getElementById(
+      "input-humidity"
+    ).value =
+      humidity;
+
+
+    document.getElementById(
+      "input-gas"
+    ).value =
+      gas;
+
+
+    /* Update dashboard */
+
+    evaluateTelemetry(
+      temperature,
+      humidity,
+      gas
+    );
+
+
+    /* Show successful connection */
+
+    const entry =
+      data.entry_id || "latest";
+
+
+    const updated =
+      data.created_at
+        ? new Date(
+            data.created_at
+          ).toLocaleString()
+        : "unknown";
+
+
+    setThingSpeakStatus(
+      `Live data loaded successfully. ThingSpeak entry ${entry}. Sensor timestamp: ${updated}`,
+      "success"
+    );
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      "ThingSpeak error:",
+      error
+    );
+
+
+    setThingSpeakStatus(
+      `Could not fetch ThingSpeak data: ${error.message}`,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   THINGSPEAK BUTTON
+   ========================================================= */
+
+document
+  .getElementById(
+    "btn-live-thingspeak"
+  )
+  .addEventListener(
+    "click",
+    fetchThingSpeakData
+  );
+
+
+/* =========================================================
+   PRESET: NORMAL
+   ========================================================= */
+
+document
+  .getElementById(
+    "preset-normal"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "input-temp"
+      ).value = 24;
+
+
+      document.getElementById(
+        "input-humidity"
+      ).value = 42;
+
+
+      document.getElementById(
+        "input-gas"
+      ).value = 280;
+
+
+      evaluateTelemetry(
+        24,
+        42,
+        280
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   PRESET: GAS ALERT
+   ========================================================= */
+
+document
+  .getElementById(
+    "preset-gas"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "input-temp"
+      ).value = 24;
+
+
+      document.getElementById(
+        "input-humidity"
+      ).value = 42;
+
+
+      document.getElementById(
+        "input-gas"
+      ).value = 3628;
+
+
+      evaluateTelemetry(
+        24,
+        42,
+        3628
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   PRESET: TEMP ALERT
+   ========================================================= */
+
+document
+  .getElementById(
+    "preset-temp"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "input-temp"
+      ).value = 45;
+
+
+      document.getElementById(
+        "input-humidity"
+      ).value = 42;
+
+
+      document.getElementById(
+        "input-gas"
+      ).value = 280;
+
+
+      evaluateTelemetry(
+        45,
+        42,
+        280
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   PRESET: MULTI ALERT
+   ========================================================= */
+
+document
+  .getElementById(
+    "preset-multi"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "input-temp"
+      ).value = 45;
+
+
+      document.getElementById(
+        "input-humidity"
+      ).value = 85;
+
+
+      document.getElementById(
+        "input-gas"
+      ).value = 3628;
+
+
+      evaluateTelemetry(
+        45,
+        85,
+        3628
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   RESET
+   ========================================================= */
+
+document
+  .getElementById(
+    "btn-reset"
+  )
+  .addEventListener(
+    "click",
+    () => {
+
+      document.getElementById(
+        "input-temp"
+      ).value = 24;
+
+
+      document.getElementById(
+        "input-humidity"
+      ).value = 42;
+
+
+      document.getElementById(
+        "input-gas"
+      ).value = 280;
+
+
+      evaluateTelemetry(
+        24,
+        42,
+        280
+      );
+
+
+      setThingSpeakStatus(
+        "Dashboard reset to normal prototype values.",
+        "normal"
+      );
+
+    }
+  );
+
+
+/* =========================================================
+   INITIAL LOAD
+   ========================================================= */
+
+window.addEventListener(
+  "DOMContentLoaded",
+  () => {
+
+    renderCharts();
+
+    updateClock();
+
+    evaluateTelemetry(
+      24,
+      42,
+      280
+    );
+
+    setThingSpeakStatus(
+      "Ready. Click 'Fetch Live ThingSpeak Data' to load the latest ESP32 readings.",
+      "normal"
+    );
+
+  }
+);
+
+
+/* =========================================================
+   CLOCK
+   ========================================================= */
+
+setInterval(
+  updateClock,
+  1000
+);
+
+</script>
+
+</body>
+</html>
+
+
